@@ -43,6 +43,22 @@
 <body>
 
   <h1>📖 Ruth & Naomi – Bible Story Video + Quiz</h1>
+<!-- YouTube Video Embed -->
+<div id="videoContainer">
+  <iframe id="bibleVideo" width="560" height="315"
+    src="https://www.youtube.com/embed/D2ieKdJ7Dc8?enablejsapi=1"
+    title="Ruth & Naomi Bible Story"
+    frameborder="0"
+    allow="autoplay; encrypted-media"
+    allowfullscreen>
+  </iframe>
+  <br>
+  <button id="rewatchBtn" onclick="rewatchVideo()">🔁 Rewatch Video</button>
+</div>
+
+<!-- Quiz Section -->
+<div id="quiz"></div>
+<div id="result"></div>
 
  <script>
   let player;
