@@ -1,0 +1,208 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Jesus’ Jesus Resurrection Bible Quiz</title>
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      background-color: #f0faff;
+      color: #333;
+      text-align: center;
+      padding: 20px;
+    }
+    h1 {
+      color: #347ab7;
+    }
+    #quiz { display: none; margin-top: 20px; }
+    .question { margin-bottom: 15px; }
+    .choices button {
+      display: block;
+      margin: 5px auto;
+      padding: 10px 20px;
+      background-color: #e0f0ff;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+    .choices button:hover {
+      background-color: #d0eaff;
+    }
+    #result {
+      margin-top: 20px;
+      font-weight: bold;
+    }
+    #result[role="alert"] {
+      outline: none;
+    }
+    #rewatchBtn {
+      margin-top: 20px;
+      padding: 8px 16px;
+      background-color: #90c4f0;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    #confettiCanvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 9999;
+    }
+    .banner {
+      max-width: 100%;
+      height: auto;
+      margin-bottom: 20px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Banner Image -->
+  <img src="Kids Bible banner SAMPLE 2.jpeg" alt="Kids Bible TV Channel Banner" class="banner"/>
+
+  <h1>📖 Jesus’ Resurrection – Bible Story Video + Quiz</h1>
+
+  <!-- YouTube Video Embed -->
+  <div id="videoContainer">
+    <iframe id="bibleVideo" width="560" height="315"
+      src="https://www.youtube.com/watch?v=Tlv7MAel1RU"
+      title="Jesus’ Resurrection"
+      frameborder="0"
+      allow="autoplay; encrypted-media"
+      allowfullscreen>
+    </iframe>
+    <br>
+    <button id="rewatchBtn" onclick="rewatchVideo()">🔁 Rewatch Video</button>
+  </div>
+
+  <!-- Quiz and Result -->
+  <div id="quiz" aria-live="polite"></div>
+  <div id="result" role="alert" tabindex="0"></div>
+
+  <!-- Confetti canvas -->
+  <canvas id="confettiCanvas"></canvas>
+
+  <!-- Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
+  <script>
+    let player;
+    let currentQuestionIndex = 0;
+
+    const correctResponses = [
+      "✅ Correct. Great job!",
+      "✅ Correct. You're doing great!",
+      "✅ Awesome, you've got this!",
+      "✅ Correct. Keep up the good work!",
+      "✅ Correct, way to go!"
+    ];
+
+    const quizData = [
+       { q: "Where was Jesus born?", 
+        choices: ["Nazareth","Bethlehem","Jerusalem","Capernaum"],
+        answer: 1, ref: "Luke 2:4–7" },
+      { q: "Who announced Jesus’ birth to the shepherds?",
+        choices: ["Mary","Gabriel","An angel","Herod"],
+        answer: 2, ref: "Luke 2:9–10" },
+      { q: "In what did Mary lay baby Jesus?",
+        choices: ["In a cradle","On a blanket","In a manger","In her arms"],
+        answer: 2, ref: "Luke 2:7" },
+      { q: "Which king tried to kill Jesus as a baby?",
+        choices: ["Herod","Pilate","Caesar","Nero"],
+        answer: 0, ref: "Matthew 2:16" },
+      { q: "Where did Mary and Joseph flee to keep Jesus safe?",
+        choices: ["Egypt","Babylon","Rome","Canaan"],
+        answer: 0, ref: "Matthew 2:14" }
+    ];
+
+    function onYouTubeIframeAPIReady() {
+      player = new YT.Player('bibleVideo', {
+        events: { 'onStateChange': onPlayerStateChange }
+      });
+    }
+
+    function onPlayerStateChange(event) {
+      if (event.data === YT.PlayerState.ENDED) {
+        loadQuiz();
+      }
+    }
+
+    function speak(text) {
+      const synth = window.speechSynthesis;
+      const utterance = new SpeechSynthesisUtterance(text);
+      synth.speak(utterance);
+    }
+
+    function loadQuiz() {
+      const quizContainer = document.getElementById("quiz");
+      let quizHTML = "";
+      quizData.forEach((q, index) => {
+        quizHTML += `<div class="question"><h3>${index + 1}. ${q.question}</h3><div class="choices">`;
+        q.choices.forEach((choice, i) => {
+          quizHTML += `<button aria-label="${choice}" onclick="checkAnswer(${index}, ${i}, this)">${choice}</button>`;
+        });
+        quizHTML += `</div></div>`;
+      });
+      quizContainer.innerHTML = quizHTML;
+      quizContainer.style.display = "block";
+      currentQuestionIndex = 0;
+    }
+
+    function checkAnswer(qIndex, choiceIndex, btn) {
+      const correct = quizData[qIndex].answer;
+      const resultContainer = document.getElementById("result");
+
+      if (choiceIndex === correct) {
+        btn.style.backgroundColor = "#c2f0c2";
+        const message = correctResponses[qIndex % correctResponses.length];
+        resultContainer.innerText = message;
+        speak(message);
+        resultContainer.focus();
+      } else {
+        btn.style.backgroundColor = "#f8c2c2";
+        resultContainer.innerText = "❌ Oh no, that is not correct. Try again!";
+        speak("Oh no, that is not correct. Try again!");
+        resultContainer.focus();
+        return;
+      }
+
+      currentQuestionIndex++;
+      if (currentQuestionIndex === quizData.length) {
+        celebrate();
+      }
+    }
+
+    function celebrate() {
+      const resultContainer = document.getElementById("result");
+      resultContainer.innerText = "🎉 Congratulations! You finished the quiz!";
+      speak("Congratulations! You finished the quiz!");
+      resultContainer.focus();
+
+      confetti({
+        particleCount: 200,
+        spread: 100,
+        origin: { y: 0.6 }
+      });
+    }
+
+    function rewatchVideo() {
+      const quizContainer = document.getElementById("quiz");
+      const resultContainer = document.getElementById("result");
+      quizContainer.style.display = "none";
+      resultContainer.innerText = "";
+      player.seekTo(0);
+      player.playVideo();
+    }
+
+    const tag = document.createElement('script');
+    tag.src = "https://www.youtube.com/iframe_api";
+    document.body.appendChild(tag);
+  </script>
+
+</body>
+</html>
