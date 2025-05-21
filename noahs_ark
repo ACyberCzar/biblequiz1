@@ -70,8 +70,8 @@
   <!-- YouTube Video Embed -->
   <div id="videoContainer">
     <iframe id="bibleVideo" width="560" height="315"
-      src="https://www.youtube.com/embed/qRfh2c-WZEU/?enablejsapi=1"
-      title="Noah's Ark"
+      src="https://www.youtube.com/embed/qRfh2c-WZEU?enablejsapi=1"
+      title="Noah's Ark Bible Story"
       frameborder="0"
       allow="autoplay; encrypted-media"
       allowfullscreen>
@@ -107,7 +107,7 @@
     ];
 
     const quizData = [
-      [
+     
   { question: "What wood was Noah’s ark made of?",
     choices: ["Oak","Gopher","Cedar","Pine"],
     answer: 1, ref: "Genesis 6:14" },
