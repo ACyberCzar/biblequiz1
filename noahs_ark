@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Jesus' Resurrection Kids Bible Quiz</title>
+  <title>Noah's Ark Kids Bible Quiz</title>
   <style>
     body {
       font-family: 'Arial', sans-serif;
@@ -65,13 +65,13 @@
   <!-- Banner Image -->
   <img src="Kids Bible banner SAMPLE 2.jpeg" alt="Kids Bible TV Channel Banner" class="banner"/>
 
-  <h1>📖 Jesus' Resurrection – Bible Story Video + Quiz</h1>
+  <h1>📖 Noah's Ark – Bible Story Video + Quiz</h1>
 
   <!-- YouTube Video Embed -->
   <div id="videoContainer">
     <iframe id="bibleVideo" width="560" height="315"
-      src="https://www.youtube.com/embed/Tlv7MAel1RU?enablejsapi=1"
-      title="Jesus' Resurrection"
+      src="https://www.youtube.com/embed/qRfh2c-WZEU/?enablejsapi=1"
+      title="Noah's Ark"
       frameborder="0"
       allow="autoplay; encrypted-media"
       allowfullscreen>
