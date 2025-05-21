@@ -103,19 +103,24 @@
     ];
 
     const quizData = [
-  { q: "Who rolled away the stone from the tomb?",
+  { 
+    q: "Who rolled away the stone from the tomb?",
     choices: ["The soldiers","The angels","Jesus Himself","The women"],
     answer: 1, ref: "Matthew 28:2" },
-  { q: "Which women first saw the empty tomb?",
+  { 
+    q: "Which women first saw the empty tomb?",
     choices: ["Mary Magdalene","Salome","Joanna","All three"],
     answer: 3, ref: "Mark 16:1–5" },
-  { q: "Who did Mary Magdalene first mistake Jesus for?",
+  { 
+    q: "Who did Mary Magdalene first mistake Jesus for?",
     choices: ["A gardener","A soldier","Joseph","A stranger"],
     answer: 0, ref: "John 20:15" },
-  { q: "What did Jesus eat to prove He wasn’t a ghost?",
+  { 
+    q: "What did Jesus eat to prove He wasn’t a ghost?",
     choices: ["Bread","Fish","Wine","Olives"],
     answer: 1, ref: "Luke 24:42–43" },
-  { q: "To which disciple did Jesus first appear?",
+  { 
+    q: "To which disciple did Jesus first appear?",
     choices: ["Peter","Thomas","James","Matthew"],
     answer: 0, ref: "John 21:15–17" }
 // Jesus’ Birth – EI Questions
@@ -133,11 +138,7 @@
 }
 ];
 
-    <script>
-  let player;
-  // other code ...
-
-  window.onYouTubeIframeAPIReady = function() {
+    window.onYouTubeIframeAPIReady = function() {
     player = new YT.Player('bibleVideo', {
       events: { 'onStateChange': onPlayerStateChange }
     });
