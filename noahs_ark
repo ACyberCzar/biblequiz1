@@ -1,10 +1,9 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Jesus’ Resurrection Bible Quiz</title>
+  <title>Jesus' Resurrection Kids Bible Quiz</title>
   <style>
     body {
       font-family: 'Arial', sans-serif;
@@ -66,20 +65,24 @@
   <!-- Banner Image -->
   <img src="Kids Bible banner SAMPLE 2.jpeg" alt="Kids Bible TV Channel Banner" class="banner"/>
 
-  <h1>📖 Noah's Ark – Bible Story Video + Quiz</h1>
+  <h1>📖 Jesus' Resurrection – Bible Story Video + Quiz</h1>
 
   <!-- YouTube Video Embed -->
   <div id="videoContainer">
     <iframe id="bibleVideo" width="560" height="315"
-      src="https://www.youtube.com/embed/qRfh2c-WZEU"
-      title="Noah's Ark – Bible Story"
+      src="https://www.youtube.com/embed/Tlv7MAel1RU?enablejsapi=1"
+      title="Jesus' Resurrection"
       frameborder="0"
       allow="autoplay; encrypted-media"
       allowfullscreen>
     </iframe>
     <br>
-    <button id="rewatchBtn" onclick="rewatchVideo()">🔁 Rewatch Video</button>
+    <button id="rewatchBtn" type="button">🔁 Rewatch Video</button>
   </div>
+
+  <button id="startQuizBtn" style="display:none; margin-top:10px; padding:8px 16px; background:#347ab7; color:#fff; border:none; border-radius:4px; cursor:pointer;">
+    ▶️ Start Quiz
+  </button>
 
   <!-- Quiz and Result -->
   <div id="quiz" aria-live="polite"></div>
@@ -92,7 +95,8 @@
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
   <script>
     let player;
-    let currentQuestionIndex = 0;
+    let correctCount = 0;
+    let confettiInstance; // For custom confetti
 
     const correctResponses = [
       "✅ Correct. Great job!",
@@ -103,55 +107,91 @@
     ];
 
     const quizData = [
-        { q: "What wood was Noah’s ark made of?",
+      [
+  { question: "What wood was Noah’s ark made of?",
     choices: ["Oak","Gopher","Cedar","Pine"],
     answer: 1, ref: "Genesis 6:14" },
-  { q: "How many of each clean animal did Noah bring?",
+  { question: "How many of each clean animal did Noah bring?",
     choices: ["One pair","Seven pairs","Three pairs","Ten pairs"],
     answer: 1, ref: "Genesis 7:2" },
-  { q: "How long did the floodwaters cover the earth?",
+  { question: "How long did the floodwaters cover the earth?",
     choices: ["40 days","150 days","100 days","7 days"],
     answer: 1, ref: "Genesis 7:24" },
-  { q: "What did the dove bring back to the ark?",
+  { question: "What did the dove bring back to the ark?",
     choices: ["A flower","An olive leaf","A worm","A branch"],
     answer: 1, ref: "Genesis 8:11" },
-  { q: "Where did the ark come to rest?",
+  { question: "Where did the ark come to rest?",
     choices: ["Mount Ararat","Mount Sinai","Mount Zion","Mount Hermon"],
     answer: 0, ref: "Genesis 8:4" }
+question: "How might Noah’s family have felt during the stormy flood?", 
+  choices: ["Proud", "Terrified", "Bored", "Jealous"], 
+  answer: 1, 
+  ref: "Genesis 7:17–18" 
+{ 
+  question: "When the dove returned with an olive leaf, what emotion could Noah have experienced?", 
+  choices: ["Anger", "Hope", "Fear", "Guilt"], 
+  answer: 1, 
+  ref: "Genesis 8:11" 
 ]
+
+      }
+    ];
+
+    function onYouTubeIframeAPIReady() {
+      player = new YT.Player('bibleVideo', {
+        events: { 'onStateChange': onPlayerStateChange }
+      });
+    }
+
     function onPlayerStateChange(event) {
       if (event.data === YT.PlayerState.ENDED) {
-        loadQuiz();
+        document.getElementById("startQuizBtn").style.display = "inline-block";
       }
     }
 
     function speak(text) {
-      const synth = window.speechSynthesis;
-      const utterance = new SpeechSynthesisUtterance(text);
-      synth.speak(utterance);
+      if ('speechSynthesis' in window) {
+        const synth = window.speechSynthesis;
+        synth.cancel();
+        const utterance = new SpeechSynthesisUtterance(text);
+        synth.speak(utterance);
+      }
     }
 
     function loadQuiz() {
       const quizContainer = document.getElementById("quiz");
       let quizHTML = "";
       quizData.forEach((q, index) => {
-        quizHTML += `<div class="question"><h3>${index + 1}. ${q.question}</h3><div class="choices">`;
+        quizHTML += `<div class="question" data-qindex="${index}"><h3>${index + 1}. ${q.question}</h3><div class="choices">`;
         q.choices.forEach((choice, i) => {
-          quizHTML += `<button aria-label="${choice}" onclick="checkAnswer(${index}, ${i}, this)">${choice}</button>`;
+          quizHTML += `<button aria-label="${choice}" type="button" data-qindex="${index}" data-cindex="${i}">${choice}</button>`;
         });
         quizHTML += `</div></div>`;
       });
       quizContainer.innerHTML = quizHTML;
       quizContainer.style.display = "block";
-      currentQuestionIndex = 0;
+      document.getElementById("result").innerText = "";
+      correctCount = 0;
     }
 
-    function checkAnswer(qIndex, choiceIndex, btn) {
+    function handleChoiceClick(e) {
+      const btn = e.target;
+      if (btn.tagName !== 'BUTTON') return;
+      const qIndex = parseInt(btn.getAttribute('data-qindex'));
+      const cIndex = parseInt(btn.getAttribute('data-cindex'));
       const correct = quizData[qIndex].answer;
       const resultContainer = document.getElementById("result");
+      const questionDiv = btn.closest('.question');
+      const choiceButtons = questionDiv.querySelectorAll('button');
 
-      if (choiceIndex === correct) {
+      if (btn.disabled) return; // Ignore clicks on disabled buttons
+
+      if (cIndex === correct) {
         btn.style.backgroundColor = "#c2f0c2";
+        btn.disabled = true;
+        // Disable all buttons for this question (so the user can't change after correct)
+        choiceButtons.forEach(b => b.disabled = true);
+        correctCount++;
         const message = correctResponses[qIndex % correctResponses.length];
         resultContainer.innerText = message;
         speak(message);
@@ -161,11 +201,9 @@
         resultContainer.innerText = "❌ Oh no, that is not correct. Try again!";
         speak("Oh no, that is not correct. Try again!");
         resultContainer.focus();
-        return;
       }
 
-      currentQuestionIndex++;
-      if (currentQuestionIndex === quizData.length) {
+      if (correctCount === quizData.length) {
         celebrate();
       }
     }
@@ -176,26 +214,58 @@
       speak("Congratulations! You finished the quiz!");
       resultContainer.focus();
 
-      confetti({
-        particleCount: 200,
-        spread: 100,
-        origin: { y: 0.6 }
-      });
+      if (confettiInstance) {
+        confettiInstance({
+          particleCount: 200,
+          spread: 100,
+          origin: { y: 0.6 }
+        });
+      } else {
+        // fallback if the instance isn't ready
+        confetti({
+          particleCount: 200,
+          spread: 100,
+          origin: { y: 0.6 }
+        });
+      }
     }
 
     function rewatchVideo() {
-      const quizContainer = document.getElementById("quiz");
-      const resultContainer = document.getElementById("result");
-      quizContainer.style.display = "none";
-      resultContainer.innerText = "";
-      player.seekTo(0);
-      player.playVideo();
+      document.getElementById("quiz").style.display = "none";
+      document.getElementById("result").innerText = "";
+      if (player && player.seekTo) {
+        player.seekTo(0);
+        player.playVideo();
+      } else {
+        // fallback reload
+        const iframe = document.getElementById("bibleVideo");
+        iframe.contentWindow.location.reload();
+      }
+      document.getElementById("startQuizBtn").style.display = "none";
     }
 
+    // Load YouTube API
     const tag = document.createElement('script');
     tag.src = "https://www.youtube.com/iframe_api";
     document.body.appendChild(tag);
-  </script>
 
+    // Event listeners (wait for DOM to load)
+    document.addEventListener("DOMContentLoaded", function() {
+      // Initialize confetti instance for the custom canvas
+      const myCanvas = document.getElementById('confettiCanvas');
+      confettiInstance = confetti.create(myCanvas, { resize: true, useWorker: true });
+
+      document.getElementById("rewatchBtn").addEventListener("click", rewatchVideo);
+      document.getElementById("startQuizBtn").addEventListener("click", function() {
+        this.style.display = "none";
+        loadQuiz();
+      });
+      document.getElementById("quiz").addEventListener("click", function(e) {
+        if (e.target.tagName === "BUTTON") {
+          handleChoiceClick(e);
+        }
+      });
+    });
+  </script>
 </body>
 </html>
