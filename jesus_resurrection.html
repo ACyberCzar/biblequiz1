@@ -104,34 +104,34 @@
 
     const quizData = [
   { 
-    q: "Who rolled away the stone from the tomb?",
+    question: "Who rolled away the stone from the tomb?",
     choices: ["The soldiers","The angels","Jesus Himself","The women"],
     answer: 1, ref: "Matthew 28:2" },
   { 
-    q: "Which women first saw the empty tomb?",
+    question: "Which women first saw the empty tomb?",
     choices: ["Mary Magdalene","Salome","Joanna","All three"],
     answer: 3, ref: "Mark 16:1–5" },
   { 
-    q: "Who did Mary Magdalene first mistake Jesus for?",
+    question: "Who did Mary Magdalene first mistake Jesus for?",
     choices: ["A gardener","A soldier","Joseph","A stranger"],
     answer: 0, ref: "John 20:15" },
   { 
-    q: "What did Jesus eat to prove He wasn’t a ghost?",
+    question: "What did Jesus eat to prove He wasn’t a ghost?",
     choices: ["Bread","Fish","Wine","Olives"],
     answer: 1, ref: "Luke 24:42–43" },
   { 
-    q: "To which disciple did Jesus first appear?",
+    question: "To which disciple did Jesus first appear?",
     choices: ["Peter","Thomas","James","Matthew"],
     answer: 0, ref: "John 21:15–17" }
 // Jesus’ Birth – EI Questions
 { 
-  q: "How might Mary have felt traveling to Bethlehem near her due date?", 
+  question: "How might Mary have felt traveling to Bethlehem near her due date?", 
   choices: ["Excited", "Anxious", "Bored", "Angry"], 
   answer: 1, 
   ref: "Luke 2:4–5" 
 },
 { 
-  q: "When there was no room in the inn, what emotion could Joseph have shown to support Mary?", 
+  question: "When there was no room in the inn, what emotion could Joseph have shown to support Mary?", 
   choices: ["Frustration", "Indifference", "Compassion", "Jealousy"], 
   answer: 2, 
   ref: "Luke 2:7" 
@@ -143,7 +143,7 @@
       events: { 'onStateChange': onPlayerStateChange }
     });
   };
-  // other code ...
+ 
 </script>
 
     function onPlayerStateChange(event) {
@@ -161,9 +161,9 @@
     function loadQuiz() {
       const quizContainer = document.getElementById("quiz");
       let quizHTML = "";
-      quizData.forEach((q, index) => {
+      quizData.forEach((question, index) => {
         quizHTML += `<div class="question"><h3>${index + 1}. ${q.question}</h3><div class="choices">`;
-        q.choices.forEach((choice, i) => {
+        question.choices.forEach((choice, i) => {
           quizHTML += `<button aria-label="${choice}" onclick="checkAnswer(${index}, ${i}, this)">${choice}</button>`;
         });
         quizHTML += `</div></div>`;
