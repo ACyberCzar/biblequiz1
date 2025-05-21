@@ -1,0 +1,97 @@
+const quizData = [
+  {
+    question: "Who discovered the empty tomb of Jesus?",
+    choices: ["Mary and Martha", "Peter and John", "Mary Magdalene", "The Roman Guards"],
+    answer: "Mary Magdalene"
+  },
+  {
+    question: "What was rolled away from the entrance of the tomb?",
+    choices: ["The cross", "A boulder", "A stone", "A curtain"],
+    answer: "A stone"
+  },
+  {
+    question: "Who appeared to Mary Magdalene at the tomb?",
+    choices: ["An angel", "Jesus", "A gardener", "All of the above"],
+    answer: "All of the above"
+  },
+  {
+    question: "What did the angel say to the women at the tomb?",
+    choices: ["He is not here; he has risen", "Be not afraid", "Come and see the place where he lay", "All of the above"],
+    answer: "All of the above"
+  },
+  {
+    question: "What did Jesus say to his disciples after the resurrection?",
+    choices: ["Go and make disciples of all nations", "Do not be afraid", "Peace be with you", "All of the above"],
+    answer: "All of the above"
+  }
+];
+
+const questionEl = document.getElementById("question");
+const choicesEl = document.getElementById("choices");
+const nextBtn = document.getElementById("next");
+
+let currentQuiz = 0;
+let answered = false;
+
+function loadQuiz() {
+  answered = false;
+  nextBtn.style.display = "none";
+  const currentQuizData = quizData[currentQuiz];
+  questionEl.innerText = currentQuizData.question;
+  choicesEl.innerHTML = "";
+
+  currentQuizData.choices.forEach(choice => {
+    const btn = document.createElement("button");
+    btn.innerText = choice;
+    btn.classList.add("choice-btn");
+    btn.addEventListener("click", () => selectAnswer(btn, currentQuizData.answer));
+    choicesEl.appendChild(btn);
+  });
+}
+
+function selectAnswer(selectedBtn, correctAnswer) {
+  if (answered) return;
+  answered = true;
+  const buttons = document.querySelectorAll(".choice-btn");
+  buttons.forEach(btn => {
+    btn.disabled = true;
+    btn.classList.remove("correct", "incorrect");
+    if (btn.innerText === correctAnswer) {
+      btn.classList.add("correct");
+    } else if (btn === selectedBtn) {
+      btn.classList.add("incorrect");
+    }
+  });
+  nextBtn.style.display = "inline-block";
+}
+
+nextBtn.addEventListener("click", () => {
+  currentQuiz++;
+  if (currentQuiz < quizData.length) {
+    loadQuiz();
+  } else {
+    showResults();
+  }
+});
+
+function showResults() {
+  questionEl.innerText = "Quiz Complete!";
+  choicesEl.innerHTML = "";
+  nextBtn.innerText = "Retry";
+  nextBtn.onclick = () => {
+    currentQuiz = 0;
+    nextBtn.innerText = "Next Question";
+    nextBtn.onclick = () => {
+      currentQuiz++;
+      if (currentQuiz < quizData.length) {
+        loadQuiz();
+      } else {
+        showResults();
+      }
+    };
+    loadQuiz();
+  };
+  nextBtn.style.display = "inline-block";
+}
+
+loadQuiz();
