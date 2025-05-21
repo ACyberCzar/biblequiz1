@@ -108,33 +108,43 @@
 
     const quizData = [
      
-  { question: "What wood was Noah’s ark made of?",
+  {
+question: "What wood was Noah’s ark made of?",
     choices: ["Oak","Gopher","Cedar","Pine"],
-    answer: 1, ref: "Genesis 6:14" },
-  { question: "How many of each clean animal did Noah bring?",
+    answer: 1, ref: "Genesis 6:14" 
+},
+  {
+question: "How many of each clean animal did Noah bring?",
     choices: ["One pair","Seven pairs","Three pairs","Ten pairs"],
-    answer: 1, ref: "Genesis 7:2" },
-  { question: "How long did the floodwaters cover the earth?",
+    answer: 1, ref: "Genesis 7:2"
+},
+  {
+question: "How long did the floodwaters cover the earth?",
     choices: ["40 days","150 days","100 days","7 days"],
-    answer: 1, ref: "Genesis 7:24" },
-  { question: "What did the dove bring back to the ark?",
+    answer: 1, ref: "Genesis 7:24"
+},
+  {
+question: "What did the dove bring back to the ark?",
     choices: ["A flower","An olive leaf","A worm","A branch"],
-    answer: 1, ref: "Genesis 8:11" },
-  { question: "Where did the ark come to rest?",
+    answer: 1, ref: "Genesis 8:11"
+},
+  {
+question: "Where did the ark come to rest?",
     choices: ["Mount Ararat","Mount Sinai","Mount Zion","Mount Hermon"],
-    answer: 0, ref: "Genesis 8:4" }
+    answer: 0, ref: "Genesis 8:4"
+},
+{
 question: "How might Noah’s family have felt during the stormy flood?", 
   choices: ["Proud", "Terrified", "Bored", "Jealous"], 
   answer: 1, 
-  ref: "Genesis 7:17–18" 
+  ref: "Genesis 7:17–18"
+ },
 { 
   question: "When the dove returned with an olive leaf, what emotion could Noah have experienced?", 
   choices: ["Anger", "Hope", "Fear", "Guilt"], 
   answer: 1, 
   ref: "Genesis 8:11" 
-]
-
-      }
+ }
     ];
 
     function onYouTubeIframeAPIReady() {
