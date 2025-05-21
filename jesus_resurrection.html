@@ -84,20 +84,6 @@
   <button id="startQuizBtn" style="display:none; margin-top:10px; padding:8px 16px; background:#347ab7; color:#fff; border:none; border-radius:4px; cursor:pointer;">
     ▶️ Start Quiz
   </button>
-const startQuizBtn = document.getElementById("startQuizBtn");
-
-document.getElementById("quiz").style.display = "none";
-
-function onPlayerStateChange(event) {
-  if (event.data === YT.PlayerState.ENDED) {
-    startQuizBtn.style.display = "inline-block";
-  }
-}
-
-startQuizBtn.addEventListener("click", () => {
-  startQuizBtn.style.display = "none";
-  loadQuiz();
-});
 
   <!-- Quiz and Result -->
   <div id="quiz" aria-live="polite"></div>
@@ -165,11 +151,11 @@ startQuizBtn.addEventListener("click", () => {
       });
     }
  
-    function onPlayerStateChange(event) {
-      if (event.data === YT.PlayerState.ENDED) {
-        loadQuiz();
-      }
-    }
+  function onPlayerStateChange(event) {
+ if (event.data === YT.PlayerState.ENDED) {
+ document.getElementById("startQuizBtn").style.display = "inline-block";
+ }
+}
 
     function speak(text) {
       const synth = window.speechSynthesis;
@@ -245,3 +231,7 @@ startQuizBtn.addEventListener("click", () => {
 
 </body>
 </html>
+document.getElementById("startQuizBtn").addEventListener("click", () => {
+  document.getElementById("startQuizBtn").style.display = "none";
+  loadQuiz();
+});
