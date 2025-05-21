@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Jesus’ Resurrection Bible Quiz</title>
+  <title>Jesus' Resurrection Kids Bible Quiz</title>
   <style>
     body {
       font-family: 'Arial', sans-serif;
@@ -66,13 +66,13 @@
   <!-- Banner Image -->
   <img src="Kids Bible banner SAMPLE 2.jpeg" alt="Kids Bible TV Channel Banner" class="banner"/>
 
-  <h1>📖 Jesus’ Resurrection – Bible Story Video + Quiz</h1>
+  <h1>📖 Jesus' Resurrection – Bible Story Video + Quiz</h1>
 
   <!-- YouTube Video Embed -->
   <div id="videoContainer">
     <iframe id="bibleVideo" width="560" height="315"
-      src="https://www.youtube.com/embed/Tlv7MAel1RU"
-      title="Jesus’ Resurrection"
+      src="https://www.youtube.com/embed/Tlv7MAel1RU?enablejsapi=1"
+      title="Jesus' Resurrection"
       frameborder="0"
       allow="autoplay; encrypted-media"
       allowfullscreen>
@@ -103,22 +103,35 @@
     ];
 
     const quizData = [
-       { q: "Where was Jesus born?", 
-        choices: ["Nazareth","Bethlehem","Jerusalem","Capernaum"],
-        answer: 1, ref: "Luke 2:4–7" },
-      { q: "Who announced Jesus’ birth to the shepherds?",
-        choices: ["Mary","Gabriel","An angel","Herod"],
-        answer: 2, ref: "Luke 2:9–10" },
-      { q: "In what did Mary lay baby Jesus?",
-        choices: ["In a cradle","On a blanket","In a manger","In her arms"],
-        answer: 2, ref: "Luke 2:7" },
-      { q: "Which king tried to kill Jesus as a baby?",
-        choices: ["Herod","Pilate","Caesar","Nero"],
-        answer: 0, ref: "Matthew 2:16" },
-      { q: "Where did Mary and Joseph flee to keep Jesus safe?",
-        choices: ["Egypt","Babylon","Rome","Canaan"],
-        answer: 0, ref: "Matthew 2:14" }
-    ];
+  { q: "Who rolled away the stone from the tomb?",
+    choices: ["The soldiers","The angels","Jesus Himself","The women"],
+    answer: 1, ref: "Matthew 28:2" },
+  { q: "Which women first saw the empty tomb?",
+    choices: ["Mary Magdalene","Salome","Joanna","All three"],
+    answer: 3, ref: "Mark 16:1–5" },
+  { q: "Who did Mary Magdalene first mistake Jesus for?",
+    choices: ["A gardener","A soldier","Joseph","A stranger"],
+    answer: 0, ref: "John 20:15" },
+  { q: "What did Jesus eat to prove He wasn’t a ghost?",
+    choices: ["Bread","Fish","Wine","Olives"],
+    answer: 1, ref: "Luke 24:42–43" },
+  { q: "To which disciple did Jesus first appear?",
+    choices: ["Peter","Thomas","James","Matthew"],
+    answer: 0, ref: "John 21:15–17" }
+// Jesus’ Birth – EI Questions
+{ 
+  q: "How might Mary have felt traveling to Bethlehem near her due date?", 
+  choices: ["Excited", "Anxious", "Bored", "Angry"], 
+  answer: 1, 
+  ref: "Luke 2:4–5" 
+},
+{ 
+  q: "When there was no room in the inn, what emotion could Joseph have shown to support Mary?", 
+  choices: ["Frustration", "Indifference", "Compassion", "Jealousy"], 
+  answer: 2, 
+  ref: "Luke 2:7" 
+}
+];
 
     function onYouTubeIframeAPIReady() {
       player = new YT.Player('bibleVideo', {
