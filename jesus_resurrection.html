@@ -132,17 +132,20 @@
         question: "To which disciple did Jesus first appear?",
         choices: ["Peter","Thomas","James","Matthew"],
         answer: 0, ref: "John 21:15–17"
-      },
-      { 
-        question: "How might Mary have felt traveling to Bethlehem near her due date?", 
-        choices: ["Excited", "Anxious", "Bored", "Angry"], 
-        answer: 1, ref: "Luke 2:4–5" 
-      },
-      { 
-        question: "When there was no room in the inn, what emotion could Joseph have shown to support Mary?", 
-        choices: ["Frustration", "Indifference", "Compassion", "Jealousy"], 
-        answer: 2, ref: "Luke 2:7" 
-      }
+      // Jesus’ Resurrection – EI Questions
+{ 
+  question: "How do you think the women felt when they saw the empty tomb?", 
+  choices: ["Fearful", "Joyful", "Sleepy", "Confused"], 
+  answer: 3, 
+  ref: "Mark 16:5–6" 
+},
+{ 
+  question: "When the angel said 'He is not here,' which emotion best describes their reaction?", 
+  choices: ["Relief", "Jealousy", "Anger", "Envy"], 
+  answer: 0, 
+  ref: "Matthew 28:6" 
+}
+
     ];
 
     function onYouTubeIframeAPIReady() {
@@ -192,11 +195,14 @@
       const correct = quizData[qIndex].answer;
       const resultContainer = document.getElementById("result");
 
-      // Prevent answering the same question multiple times
-      const questionDiv = btn.closest('.question');
-      const buttons = questionDiv.querySelectorAll('button');
-      buttons.forEach(b => b.disabled = true);
-
+      // Only disable the correct answer button so user can't select it again
+if (cIndex === correct) {
+  btn.disabled = true;
+  // Optionally, you can also disable all buttons for this question if you want to lock it after correct
+} else {
+  // Leave all buttons enabled for retry except the current wrong one if you want to prevent rapid re-clicks
+  // (optional) btn.disabled = false;
+}
       totalAnswered++;
       if (cIndex === correct) {
         btn.style.backgroundColor = "#c2f0c2";
