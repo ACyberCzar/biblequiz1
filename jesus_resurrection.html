@@ -95,10 +95,7 @@
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
   <script>
     let player;
-    let currentQuestionIndex = 0;
-    let totalAnswered = 0;
     let correctCount = 0;
-
     const correctResponses = [
       "✅ Correct. Great job!",
       "✅ Correct. You're doing great!",
@@ -132,20 +129,19 @@
         question: "To which disciple did Jesus first appear?",
         choices: ["Peter","Thomas","James","Matthew"],
         answer: 0, ref: "John 21:15–17"
-      // Jesus’ Resurrection – EI Questions
-{ 
-  question: "How do you think the women felt when they saw the empty tomb?", 
-  choices: ["Fearful", "Joyful", "Sleepy", "Confused"], 
-  answer: 3, 
-  ref: "Mark 16:5–6" 
-},
-{ 
-  question: "When the angel said 'He is not here,' which emotion best describes their reaction?", 
-  choices: ["Relief", "Jealousy", "Anger", "Envy"], 
-  answer: 0, 
-  ref: "Matthew 28:6" 
-}
-
+      },
+      { 
+        question: "How do you think the women felt when they saw the empty tomb?", 
+        choices: ["Fearful", "Joyful", "Sleepy", "Confused"], 
+        answer: 3, 
+        ref: "Mark 16:5–6" 
+      },
+      { 
+        question: "When the angel said 'He is not here,' which emotion best describes their reaction?", 
+        choices: ["Relief", "Jealousy", "Anger", "Envy"], 
+        answer: 0, 
+        ref: "Matthew 28:6" 
+      }
     ];
 
     function onYouTubeIframeAPIReady() {
@@ -163,7 +159,7 @@
     function speak(text) {
       if ('speechSynthesis' in window) {
         const synth = window.speechSynthesis;
-        synth.cancel(); // Stop any ongoing speech
+        synth.cancel();
         const utterance = new SpeechSynthesisUtterance(text);
         synth.speak(utterance);
       }
@@ -173,7 +169,7 @@
       const quizContainer = document.getElementById("quiz");
       let quizHTML = "";
       quizData.forEach((q, index) => {
-        quizHTML += `<div class="question"><h3>${index + 1}. ${q.question}</h3><div class="choices">`;
+        quizHTML += `<div class="question" data-qindex="${index}"><h3>${index + 1}. ${q.question}</h3><div class="choices">`;
         q.choices.forEach((choice, i) => {
           quizHTML += `<button aria-label="${choice}" type="button" data-qindex="${index}" data-cindex="${i}">${choice}</button>`;
         });
@@ -182,8 +178,6 @@
       quizContainer.innerHTML = quizHTML;
       quizContainer.style.display = "block";
       document.getElementById("result").innerText = "";
-      currentQuestionIndex = 0;
-      totalAnswered = 0;
       correctCount = 0;
     }
 
@@ -194,18 +188,16 @@
       const cIndex = parseInt(btn.getAttribute('data-cindex'));
       const correct = quizData[qIndex].answer;
       const resultContainer = document.getElementById("result");
+      const questionDiv = btn.closest('.question');
+      const choiceButtons = questionDiv.querySelectorAll('button');
 
-      // Only disable the correct answer button so user can't select it again
-if (cIndex === correct) {
-  btn.disabled = true;
-  // Optionally, you can also disable all buttons for this question if you want to lock it after correct
-} else {
-  // Leave all buttons enabled for retry except the current wrong one if you want to prevent rapid re-clicks
-  // (optional) btn.disabled = false;
-}
-      totalAnswered++;
+      if (btn.disabled) return; // Ignore clicks on disabled buttons
+
       if (cIndex === correct) {
         btn.style.backgroundColor = "#c2f0c2";
+        btn.disabled = true;
+        // Disable all buttons for this question (so the user can't change after correct)
+        choiceButtons.forEach(b => b.disabled = true);
         correctCount++;
         const message = correctResponses[qIndex % correctResponses.length];
         resultContainer.innerText = message;
@@ -216,13 +208,8 @@ if (cIndex === correct) {
         resultContainer.innerText = "❌ Oh no, that is not correct. Try again!";
         speak("Oh no, that is not correct. Try again!");
         resultContainer.focus();
-        // Re-enable the wrong button for retry
-        btn.disabled = false;
-        totalAnswered--;
-        return;
       }
 
-      // Move to next unanswered question, or finish
       if (correctCount === quizData.length) {
         celebrate();
       }
