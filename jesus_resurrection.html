@@ -106,24 +106,27 @@
   { 
     question: "Who rolled away the stone from the tomb?",
     choices: ["The soldiers","The angels","Jesus Himself","The women"],
-    answer: 1, ref: "Matthew 28:2" },
+    answer: 1, ref: "Matthew 28:2" 
+  },
   { 
     question: "Which women first saw the empty tomb?",
     choices: ["Mary Magdalene","Salome","Joanna","All three"],
-    answer: 3, ref: "Mark 16:1–5" },
+    answer: 3, ref: "Mark 16:1–5" 
+  },
   { 
     question: "Who did Mary Magdalene first mistake Jesus for?",
     choices: ["A gardener","A soldier","Joseph","A stranger"],
-    answer: 0, ref: "John 20:15" },
+    answer: 0, ref: "John 20:15" 
+  },
   { 
     question: "What did Jesus eat to prove He wasn’t a ghost?",
     choices: ["Bread","Fish","Wine","Olives"],
-    answer: 1, ref: "Luke 24:42–43" },
+    answer: 1, ref: "Luke 24:42–43" 
+  },
   { 
     question: "To which disciple did Jesus first appear?",
     choices: ["Peter","Thomas","James","Matthew"],
     answer: 0, ref: "John 21:15–17" }
-// Jesus’ Birth – EI Questions
 { 
   question: "How might Mary have felt traveling to Bethlehem near her due date?", 
   choices: ["Excited", "Anxious", "Bored", "Angry"], 
@@ -138,14 +141,12 @@
 }
 ];
 
-    window.onYouTubeIframeAPIReady = function() {
-    player = new YT.Player('bibleVideo', {
-      events: { 'onStateChange': onPlayerStateChange }
-    });
-  };
+    function onYouTubeIframeAPIReady() {
+      player = new YT.Player('bibleVideo', {
+        events: { 'onStateChange': onPlayerStateChange }
+      });
+    }
  
-</script>
-
     function onPlayerStateChange(event) {
       if (event.data === YT.PlayerState.ENDED) {
         loadQuiz();
@@ -161,9 +162,9 @@
     function loadQuiz() {
       const quizContainer = document.getElementById("quiz");
       let quizHTML = "";
-      quizData.forEach((question, index) => {
+      quizData.forEach((q, index) => {
         quizHTML += `<div class="question"><h3>${index + 1}. ${q.question}</h3><div class="choices">`;
-        question.choices.forEach((choice, i) => {
+        q.choices.forEach((choice, i) => {
           quizHTML += `<button aria-label="${choice}" onclick="checkAnswer(${index}, ${i}, this)">${choice}</button>`;
         });
         quizHTML += `</div></div>`;
