@@ -133,11 +133,17 @@
 }
 ];
 
-    function onYouTubeIframeAPIReady() {
-      player = new YT.Player('bibleVideo', {
-        events: { 'onStateChange': onPlayerStateChange }
-      });
-    }
+    <script>
+  let player;
+  // other code ...
+
+  window.onYouTubeIframeAPIReady = function() {
+    player = new YT.Player('bibleVideo', {
+      events: { 'onStateChange': onPlayerStateChange }
+    });
+  };
+  // other code ...
+</script>
 
     function onPlayerStateChange(event) {
       if (event.data === YT.PlayerState.ENDED) {
